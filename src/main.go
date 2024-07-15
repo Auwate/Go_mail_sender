@@ -17,6 +17,12 @@ var processes = sync.WaitGroup{}
 
 func loggerSetup() {
 
+	dirPath := "./src/log"
+
+	if _, err := os.Stat(dirPath); os.IsNotExist(err) {
+		os.MkdirAll(dirPath, 0755)
+	}
+
 	file, err := os.OpenFile("./src/log/log.txt", os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0644)
 
 	if err != nil {
@@ -62,6 +68,12 @@ func uploadHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	defer file.Close()
+
+	dirPath := "./src/file/"
+
+	if _, err := os.Stat(dirPath); os.IsNotExist(err) {
+		os.MkdirAll(dirPath, 0755)
+	}
 
 	absPath, err := filepath.Abs("./src/file/" + fileHeader.Filename)
 
@@ -121,8 +133,10 @@ func sendMail(filePath string, to string) {
 
 	if err := dialer.DialAndSend(message); err != nil {
 		log.Fatalf("Failure: %v\n", err.Error())
+		os.Remove(filePath)
 	} else {
 		log.Printf("Success: Sent email to %v\n", to)
+		os.Remove(filePath)
 	}
 
 	processes.Done()
