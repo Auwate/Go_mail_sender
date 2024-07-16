@@ -119,6 +119,7 @@ func sendMail(filePath string, to string) {
 
 func main() {
 
+	log.Println("Trying: Logger setup.")
 	if err := utils.LoggerSetup(LogDirPath); err != nil {
 		log.Fatalf("Failed to open log file: %v", err.Error())
 	}
@@ -146,7 +147,9 @@ func main() {
 	log.Println("Success: Handler configurations.")
 
 	// Handle terminations and interruptions.
+	log.Println("Trying: Handle signals.")
 	go utils.HandleSignal(LogDirPath)
+	log.Println("Success: Handle signals goroutine established.")
 
 	log.Println("Starting server...")
 	err := http.ListenAndServe("0.0.0.0:8080", nil)

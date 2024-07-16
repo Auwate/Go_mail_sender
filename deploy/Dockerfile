@@ -27,9 +27,8 @@ VOLUME ${AWS_DIR}
 WORKDIR /Go_mail_sender
 
 # Download dependencies
-RUN go get gopkg.in/gomail.v2
-# Clean up
 RUN go mod tidy
+RUN go mod download
 
 EXPOSE 8080
 
