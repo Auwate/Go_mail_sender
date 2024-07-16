@@ -1,0 +1,29 @@
+# Using minideb:bullseye for small size and functionality
+FROM bitnami/minideb:bullseye
+
+# Update and upgrade
+RUN apt-get update --fix-missing && apt-get upgrade -y
+RUN apt-get install -y wget git
+
+# Get Go
+ENV GOLANG_VERSION 1.22.5
+RUN wget -q https://go.dev/dl/go${GOLANG_VERSION}.linux-amd64.tar.gz
+RUN tar -C /usr/local -xzf go${GOLANG_VERSION}.linux-amd64.tar.gz
+RUN rm go${GOLANG_VERSION}.linux-amd64.tar.gz
+
+# Add Go ENV variables
+ENV PATH ${PATH}:/usr/local/go/bin
+ENV GO111MODULE=on
+
+# Clone project
+RUN git clone https://github.com/Auwate/Go_mail_sender.git
+
+# Change directory to where mod file is
+WORKDIR /Go_mail_sender
+
+RUN go get gopkg.in/gomail.v2
+RUN go mod tidy
+
+EXPOSE 8080
+
+CMD ["go", "run", "./src/main.go"]

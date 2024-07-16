@@ -123,7 +123,7 @@ func main() {
 	log.Println("Success: Logger setup.")
 
 	log.Println("Trying: Environment variable setup.")
-	if err := utils.EnvSetup(nil); err != nil {
+	if err := utils.EnvSetup(); err != nil {
 		log.Fatalf("Failed to write env fields: %v", err.Error())
 	}
 	log.Println("Success: Environment variable setup.")

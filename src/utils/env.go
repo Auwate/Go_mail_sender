@@ -1,36 +1,20 @@
 package utils
 
 import (
-	"bufio"
-	"fmt"
-	"io"
+	"errors"
 	"os"
 )
 
-func EnvSetup(buffer io.Reader) error {
+func EnvSetup() error {
 
-	if buffer == nil {
-		buffer = os.Stdin
+	if os.Getenv("EMAIL") == "" {
+		return errors.New("EMAIL environment variable not found")
 	}
 
-	reader := bufio.NewReader(buffer)
-	fmt.Println("Please enter your gmail address.")
-	email, err := reader.ReadString('\n')
-
-	if err != nil {
-		return err
+	if os.Getenv("PASSWORD") == "" {
+		return errors.New("PASSWORD environment variable not found")
 	}
 
-	os.Setenv("EMAIL", email)
-
-	fmt.Println("Please enter your gmail's app password (For instructions, look up app password on Google. It will require 2FA.)")
-	pass, err := reader.ReadString('\n')
-
-	if err != nil {
-		return err
-	}
-
-	os.Setenv("PASSWORD", pass)
 	return nil
 
 }

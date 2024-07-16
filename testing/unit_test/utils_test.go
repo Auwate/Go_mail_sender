@@ -1,10 +1,8 @@
 package main
 
 import (
-	"io"
 	"net/http"
 	"os"
-	"strings"
 	"testing"
 
 	"github.com/Auwate/go_net_tutorial/src/utils"
@@ -39,18 +37,18 @@ func TestCorrectFileServerSetup(t *testing.T) {
 
 func TestEnvSetup(t *testing.T) {
 
-	input := "testing@email.com\nabc123\n"
-	var reader io.Reader = strings.NewReader(input)
+	os.Setenv("EMAIL", "testing@email.com")
+	os.Setenv("PASSWORD", "abc123")
 
-	if err := utils.EnvSetup(reader); err != nil {
+	if err := utils.EnvSetup(); err != nil {
 		t.Errorf("Failed: %v\n", err.Error())
 	}
 
-	if os.Getenv("EMAIL") != "testing@email.com\n" {
+	if os.Getenv("EMAIL") != "testing@email.com" {
 		t.Errorf("Failed: EMAIL should not be %v\n", os.Getenv("EMAIL"))
 	}
 
-	if os.Getenv("PASSWORD") != "abc123\n" {
+	if os.Getenv("PASSWORD") != "abc123" {
 		t.Errorf("Failed: PASSWORD should not be %v\n", os.Getenv("PASSWORD"))
 	}
 
