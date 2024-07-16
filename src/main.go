@@ -138,7 +138,7 @@ func main() {
 	log.Println("Success: Handler configurations.")
 
 	log.Println("Starting server...")
-	http.ListenAndServe("localhost:8080", nil)
+	http.ListenAndServe("0.0.0.0:8080", nil)
 	log.Println("Cleaning up...")
 	processes.Wait()
 	log.Println("Finished.")
