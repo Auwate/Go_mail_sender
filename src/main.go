@@ -15,6 +15,8 @@ import (
 var processes = sync.WaitGroup{}
 var LogDirPath = "./src/log"
 var StaticDirPath = "./src/static"
+var BucketName = "LogRepo"
+var Region = "us-east-1"
 
 func uploadHandler(w http.ResponseWriter, r *http.Request) {
 
@@ -122,6 +124,12 @@ func main() {
 	}
 	log.Println("Success: Logger setup.")
 
+	log.Println("Trying: AWS S3 Bucket setup.")
+	if err := utils.HandleBucketCreation(BucketName, Region); err != nil {
+		log.Fatalf("Failed to create S3 bucket: %v", err.Error())
+	}
+	log.Println("Success: AWS S3 Bucket created.")
+
 	log.Println("Trying: Environment variable setup.")
 	if err := utils.EnvSetup(); err != nil {
 		log.Fatalf("Failed to write env fields: %v", err.Error())
@@ -137,10 +145,13 @@ func main() {
 	http.HandleFunc("/upload", uploadHandler)
 	log.Println("Success: Handler configurations.")
 
+	// Handle terminations and interruptions.
+	go utils.HandleSignal(LogDirPath)
+
 	log.Println("Starting server...")
-	http.ListenAndServe("0.0.0.0:8080", nil)
-	log.Println("Cleaning up...")
-	processes.Wait()
-	log.Println("Finished.")
+	err := http.ListenAndServe("0.0.0.0:8080", nil)
+	if err != nil {
+		log.Println("An error occurred when hosting.")
+	}
 
 }

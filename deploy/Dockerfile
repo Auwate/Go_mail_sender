@@ -5,7 +5,7 @@ FROM bitnami/minideb:bullseye
 RUN apt-get update --fix-missing && apt-get upgrade -y
 RUN apt-get install -y wget git
 
-# Get Go
+# Install Go
 ENV GOLANG_VERSION 1.22.5
 RUN wget -q https://go.dev/dl/go${GOLANG_VERSION}.linux-amd64.tar.gz
 RUN tar -C /usr/local -xzf go${GOLANG_VERSION}.linux-amd64.tar.gz
@@ -18,10 +18,17 @@ ENV GO111MODULE=on
 # Clone project
 RUN git clone https://github.com/Auwate/Go_mail_sender.git
 
+# Specify your username
+ENV AWS_DIR "C:/Users/{CHANGE_ME}/.aws"
+# Mount AWS credentials
+VOLUME ${AWS_DIR}
+
 # Change directory to where mod file is
 WORKDIR /Go_mail_sender
 
+# Download dependencies
 RUN go get gopkg.in/gomail.v2
+# Clean up
 RUN go mod tidy
 
 EXPOSE 8080
