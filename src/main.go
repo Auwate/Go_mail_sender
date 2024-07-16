@@ -1,8 +1,6 @@
 package main
 
 import (
-	"bufio"
-	"fmt"
 	"io"
 	"log"
 	"net/http"
@@ -10,38 +8,13 @@ import (
 	"path/filepath"
 	"sync"
 
+	"github.com/Auwate/go_net_tutorial/src/utils"
 	"gopkg.in/gomail.v2"
 )
 
 var processes = sync.WaitGroup{}
-
-func loggerSetup() {
-
-	dirPath := "./src/log"
-
-	if _, err := os.Stat(dirPath); os.IsNotExist(err) {
-		os.MkdirAll(dirPath, 0755)
-	}
-
-	file, err := os.OpenFile("./src/log/log.txt", os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0644)
-
-	if err != nil {
-		log.Fatalf("Failed to open log file: %v", err.Error())
-	}
-
-	log.SetOutput(file)
-	log.Println("Success: Logger setup.")
-
-}
-
-func fileServerSetup() http.Handler {
-
-	log.Println("Trying: File server setup.")
-	var fileServer http.Handler = http.FileServer(http.Dir("./src/static"))
-	log.Println("Success: File server setup.")
-	return fileServer
-
-}
+var LogDirPath = "./src/log"
+var StaticDirPath = "./src/static"
 
 func uploadHandler(w http.ResponseWriter, r *http.Request) {
 
@@ -142,28 +115,22 @@ func sendMail(filePath string, to string) {
 	processes.Done()
 }
 
-func envSetup() {
-
-	log.Println("Trying: Environment variable setup.")
-	reader := bufio.NewReader(os.Stdin)
-
-	fmt.Println("Please enter your gmail address.")
-	email, _ := reader.ReadString('\n')
-	os.Setenv("EMAIL", email)
-
-	fmt.Println("Please enter your gmail's app password (For instructions, look up app password on Google. It will require 2FA.)")
-	pass, _ := reader.ReadString('\n')
-	os.Setenv("PASSWORD", pass)
-	log.Println("Success: Environment variable setup.")
-
-}
-
 func main() {
 
-	loggerSetup()
-	envSetup()
+	if err := utils.LoggerSetup(LogDirPath); err != nil {
+		log.Fatalf("Failed to open log file: %v", err.Error())
+	}
+	log.Println("Success: Logger setup.")
 
-	var fileServer http.Handler = fileServerSetup()
+	log.Println("Trying: Environment variable setup.")
+	if err := utils.EnvSetup(nil); err != nil {
+		log.Fatalf("Failed to write env fields: %v", err.Error())
+	}
+	log.Println("Success: Environment variable setup.")
+
+	log.Println("Trying: File server setup.")
+	var fileServer http.Handler = utils.FileServerSetup(StaticDirPath)
+	log.Println("Success: File server setup.")
 
 	log.Println("Trying: Handler configurations.")
 	http.Handle("/", fileServer)
