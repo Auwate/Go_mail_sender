@@ -10,8 +10,10 @@ func LoggerSetup(dirPath string) error {
 
 	_, err := os.Stat(dirPath)
 	if os.IsNotExist(err) {
-		os.MkdirAll(dirPath, 0755)
-	} else {
+		if err := os.MkdirAll(dirPath, 0755); err != nil {
+			return err
+		}
+	} else if err != nil {
 		return err
 	}
 
