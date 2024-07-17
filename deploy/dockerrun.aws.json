@@ -1,0 +1,14 @@
+{
+    "AWSEBDockerrunVersion": "1",
+    "Image": {
+      "Name": "{USER-ID}.dkr.ecr.us-east-1.amazonaws.com/go-mail-sender:latest",
+      "Update": "true"
+    },
+    "Ports": [
+      {
+        "ContainerPort": 8080,
+        "HostPort": 8080
+      }
+    ]
+  }
+  
