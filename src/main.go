@@ -118,8 +118,7 @@ func sendMail(filePath string, to string) {
 }
 
 func main() {
-	os.Setenv("EMAIL", "temp")
-	os.Setenv("PASSWORD", "temp")
+
 	log.Println("Trying: Logger setup.")
 	file, err := utils.LoggerSetup(LogDirPath)
 

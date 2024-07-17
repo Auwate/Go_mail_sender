@@ -19,7 +19,7 @@ ENV GO111MODULE=on
 RUN git clone https://github.com/Auwate/Go_mail_sender.git
 
 # Specify your username
-ENV AWS_DIR "C:/Users/{CHANGE_ME}/.aws"
+ENV AWS_DIR "C:/Users/auwat/.aws"
 # Mount AWS credentials
 VOLUME ${AWS_DIR}
 
