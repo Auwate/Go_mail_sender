@@ -18,17 +18,11 @@ func LoggerSetup(dirPath string) error {
 		return err
 	}
 
-	file, err := os.OpenFile(filepath.Join(dirPath, "log.txt"), os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0644)
-	log.Println(file.Name())
+	file, err := os.OpenFile(filepath.Join(dirPath, "log.txt"), os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0666)
+
 	if err != nil {
 		return err
 	}
-
-	log.Println(os.Getwd())
-	os.Chdir("./src")
-	log.Println(os.Getwd())
-	os.Chdir("./log")
-	log.Println(os.Getwd())
 
 	log.SetOutput(file)
 
