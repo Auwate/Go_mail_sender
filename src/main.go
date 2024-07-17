@@ -15,7 +15,7 @@ import (
 var processes = sync.WaitGroup{}
 var LogDirPath = "./src/log"
 var StaticDirPath = "./src/static"
-var BucketName = "LogRepo"
+var BucketName = "github-go-mail-sender-log-repo"
 var Region = "us-east-1"
 
 func uploadHandler(w http.ResponseWriter, r *http.Request) {
@@ -118,9 +118,12 @@ func sendMail(filePath string, to string) {
 }
 
 func main() {
-
+	os.Setenv("EMAIL", "temp")
+	os.Setenv("PASSWORD", "temp")
 	log.Println("Trying: Logger setup.")
-	if err := utils.LoggerSetup(LogDirPath); err != nil {
+	file, err := utils.LoggerSetup(LogDirPath)
+
+	if err != nil {
 		log.Fatalf("Failed to open log file: %v", err.Error())
 	}
 	log.Println("Success: Logger setup.")
@@ -148,11 +151,11 @@ func main() {
 
 	// Handle terminations and interruptions.
 	log.Println("Trying: Handle signals.")
-	go utils.HandleSignal(LogDirPath)
+	go utils.HandleSignal(file)
 	log.Println("Success: Handle signals goroutine established.")
 
 	log.Println("Starting server...")
-	err := http.ListenAndServe("0.0.0.0:8080", nil)
+	err = http.ListenAndServe("0.0.0.0:8080", nil)
 	if err != nil {
 		log.Println("An error occurred when hosting.")
 	}

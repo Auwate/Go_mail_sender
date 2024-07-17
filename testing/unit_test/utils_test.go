@@ -12,7 +12,7 @@ func TestCorrectLoggerSetup(t *testing.T) {
 
 	dirPath := "./log"
 
-	err := utils.LoggerSetup(dirPath)
+	_, err := utils.LoggerSetup(dirPath)
 
 	if err != nil {
 		t.Errorf("Failed: %v\n", err.Error())

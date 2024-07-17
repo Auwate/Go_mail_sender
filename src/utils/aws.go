@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"context"
 	"errors"
+	"fmt"
 	"log"
 	"os"
 
@@ -28,14 +29,20 @@ var currConfig = AWS{
 
 func UploadFile(logFileLocation string) error {
 
-	data, _ := os.ReadFile(logFileLocation)
+	data, err := os.ReadFile(logFileLocation)
 
-	_, err := currConfig.Client.PutObject(currConfig.Ctx, &s3.PutObjectInput{
+	if err != nil {
+		fmt.Printf("Fail: %v\n", err.Error())
+	}
+
+	_, err = currConfig.Client.PutObject(currConfig.Ctx, &s3.PutObjectInput{
 		Bucket: aws.String(currConfig.BucketName),
 		Key:    aws.String("log.txt"),
 		Body:   bytes.NewReader(data),
 	})
-
+	if err != nil {
+		fmt.Printf("Fail: %v\n", err.Error())
+	}
 	return err
 
 }

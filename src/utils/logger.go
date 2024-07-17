@@ -6,26 +6,26 @@ import (
 	"path/filepath"
 )
 
-func LoggerSetup(dirPath string) error {
+func LoggerSetup(dirPath string) (*os.File, error) {
 
 	_, err := os.Stat(dirPath)
 
 	if os.IsNotExist(err) {
-		if err := os.MkdirAll(dirPath, 0777); err != nil {
-			return err
+		if err := os.MkdirAll(dirPath, 0755); err != nil {
+			return nil, err
 		}
 	} else if err != nil {
-		return err
+		return nil, err
 	}
 
-	file, err := os.OpenFile(filepath.Join(dirPath, "log.txt"), os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0666)
+	file, err := os.OpenFile(filepath.Join(dirPath, "log.txt"), os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0644)
 
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	log.SetOutput(file)
 
-	return nil
+	return file, nil
 
 }

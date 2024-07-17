@@ -1,0 +1,28 @@
+2024/07/17 12:14:39 Success: Logger setup.
+2024/07/17 12:14:39 Trying: AWS S3 Bucket setup.
+2024/07/17 12:14:40 Bucket was already created.
+2024/07/17 12:14:40 Success: AWS S3 Bucket created.
+2024/07/17 12:14:40 Trying: Environment variable setup.
+2024/07/17 12:14:40 Success: Environment variable setup.
+2024/07/17 12:14:40 Trying: File server setup.
+2024/07/17 12:14:40 Success: File server setup.
+2024/07/17 12:14:40 Trying: Handler configurations.
+2024/07/17 12:14:40 Success: Handler configurations.
+2024/07/17 12:14:40 Trying: Handle signals.
+2024/07/17 12:14:40 Success: Handle signals goroutine established.
+2024/07/17 12:14:40 Starting server...
+2024/07/17 12:14:46 Signal interrupt received. Cleaning up...
+2024/07/17 12:15:52 Success: Logger setup.
+2024/07/17 12:15:52 Trying: AWS S3 Bucket setup.
+2024/07/17 12:15:52 Bucket was already created.
+2024/07/17 12:15:52 Success: AWS S3 Bucket created.
+2024/07/17 12:15:52 Trying: Environment variable setup.
+2024/07/17 12:15:52 Success: Environment variable setup.
+2024/07/17 12:15:52 Trying: File server setup.
+2024/07/17 12:15:52 Success: File server setup.
+2024/07/17 12:15:52 Trying: Handler configurations.
+2024/07/17 12:15:52 Success: Handler configurations.
+2024/07/17 12:15:52 Trying: Handle signals.
+2024/07/17 12:15:52 Success: Handle signals goroutine established.
+2024/07/17 12:15:52 Starting server...
+2024/07/17 12:15:56 Signal interrupt received. Cleaning up...
