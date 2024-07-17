@@ -10,7 +10,7 @@ The `Go_mail_sender` application is an gmail sender that asks users to provide a
 
 # Usage
 
-## Locally
+## Running locally
 
 To run this locally on a Docker container, run the following commands:
 
@@ -29,7 +29,7 @@ docker run -v C:/Users/{CHANGE1}/.aws:/root/.aws -e EMAIL="{CHANGE2}" -e PASSWOR
 - CHANGE3
   - This is the app password. You can find more information about it here: https://support.google.com/accounts/answer/185833?hl=en
  
-## Elastic Beanstalk
+## Running on Elastic Beanstalk
 
 To run this on EBS, you need to save this image to Docker Hub or AWS Elastic Container Registry with the name go-mail-sender. In the dockerrun.aws.json file, you will need to change:
 
