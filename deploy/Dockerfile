@@ -18,10 +18,8 @@ ENV GO111MODULE=on
 # Clone project
 RUN git clone https://github.com/Auwate/Go_mail_sender.git
 
-# Specify your username
-ENV AWS_DIR "C:/Users/{CHANGEME}/.aws"
-# Mount AWS credentials
-VOLUME ${AWS_DIR}
+# Copy your credentials
+COPY C:/Users/{CHANGE ME}/.aws /root/.aws
 
 # Change directory to where mod file is
 WORKDIR /Go_mail_sender
