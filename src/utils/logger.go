@@ -24,6 +24,12 @@ func LoggerSetup(dirPath string) error {
 		return err
 	}
 
+	log.Println(os.Getwd())
+	os.Chdir("./src")
+	log.Println(os.Getwd())
+	os.Chdir("./log")
+	log.Println(os.Getwd())
+
 	log.SetOutput(file)
 
 	return nil
